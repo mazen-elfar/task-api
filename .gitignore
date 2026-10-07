@@ -38,3 +38,7 @@ desktop.ini
 *.njsproj
 *.sln
 *.sw?
+
+# Agentic Planning & Internal Artifacts
+docs/
+.agents/
