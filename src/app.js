@@ -13,6 +13,13 @@ const swaggerSpec = require('./docs/swaggerSpec');
 
 const app = express();
 
+// Trust reverse proxy in production (Render load balancer / edge proxy)
+// Trusting 1 hop ensures req.ip resolves to the real client IP via X-Forwarded-For
+// while preventing arbitrary proxy header spoofing and resolving express-rate-limit validation warnings.
+if (config.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 // Security HTTP headers (disable CSP specifically for Swagger UI compatibility)
 app.use(
   helmet({
