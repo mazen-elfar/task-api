@@ -443,16 +443,19 @@ The validation middleware automatically strips undeclared fields (`stripUnknown:
 
 Interactive OpenAPI 3.0 documentation is built into the application:
 
-- **Interactive Swagger UI:** [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
-- **OpenAPI 3.0 JSON Spec:** [http://localhost:5000/api-docs.json](http://localhost:5000/api-docs.json)
+- **Production Interactive Swagger UI:** [https://task-api-zvh4.onrender.com/api-docs/](https://task-api-zvh4.onrender.com/api-docs/)
+- **Production OpenAPI 3.0 JSON Spec:** [https://task-api-zvh4.onrender.com/api-docs.json](https://task-api-zvh4.onrender.com/api-docs.json)
+- **Local Interactive Swagger UI:** [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
+- **Local OpenAPI 3.0 JSON Spec:** [http://localhost:5000/api-docs.json](http://localhost:5000/api-docs.json)
 
 ### Executing Requests in Swagger:
-1. Open `http://localhost:5000/api-docs` in your browser.
-2. Under **Authentication**, invoke `POST /api/auth/register` or `POST /api/auth/login`.
-3. Copy the token from the response.
-4. Click the green **Authorize** button at the top right of the Swagger UI.
-5. Paste the token into the value field (`Bearer <token>`) and click **Authorize**.
-6. All protected task endpoints can now be executed directly within the browser interface.
+1. Open [https://task-api-zvh4.onrender.com/api-docs/](https://task-api-zvh4.onrender.com/api-docs/) (or `http://localhost:5000/api-docs` locally).
+2. Select your desired server environment from the **Servers** dropdown (defaults to Production on Render, Local during development).
+3. Under **Authentication**, invoke `POST /api/auth/register` or `POST /api/auth/login`.
+4. Copy the token from the response data (`data.token`).
+5. Click the green **Authorize** button at the top right of the Swagger UI.
+6. Enter `Bearer <your_token>` and click **Authorize**.
+7. All protected task endpoints can now be executed directly within the browser interface.
 
 ---
 
@@ -462,7 +465,9 @@ A pre-configured, production-ready Postman collection is located at [`postman/ta
 
 ### Features:
 - **Collection Variables:**
-  - `baseUrl`: Defaults to `http://localhost:5000` (can be switched to your deployed production URL).
+  - `baseUrl`: Base URL of the API.
+    - **Local Development:** `http://localhost:5000` (default)
+    - **Production (Render):** `https://task-api-zvh4.onrender.com`
   - `token`: Automatically populated upon successful registration or login.
   - `taskId`: Dynamically saved when creating or querying tasks.
 - **Automated Token Chaining:** The collection's test scripts automatically capture the JWT token upon calling `POST /api/auth/register` or `POST /api/auth/login` and store it in the `token` variable, so subsequent task requests work with zero manual token copy-pasting.
@@ -509,7 +514,8 @@ The repository includes a ready-to-use [`render.yaml`](file:///render.yaml) blue
 ## 17. Submission Links & Materials
 
 - **GitHub Repository:** [https://github.com/mazen-elfar/task-api](https://github.com/mazen-elfar/task-api)
-- **Live Deployed API:** `<deployed URL>` *(e.g. `https://task-api.onrender.com`)*
-- **Swagger Documentation:** `<deployed URL>/api-docs` *(e.g. `https://task-api.onrender.com/api-docs`)*
+- **Live Deployed API:** [https://task-api-zvh4.onrender.com](https://task-api-zvh4.onrender.com)
+- **Swagger Documentation:** [https://task-api-zvh4.onrender.com/api-docs/](https://task-api-zvh4.onrender.com/api-docs/)
+- **OpenAPI 3.0 JSON Spec:** [https://task-api-zvh4.onrender.com/api-docs.json](https://task-api-zvh4.onrender.com/api-docs.json)
 - **Postman Collection:** Located in [`postman/task-api.postman_collection.json`](file:///postman/task-api.postman_collection.json)
 - **License:** MIT

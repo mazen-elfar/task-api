@@ -1,5 +1,32 @@
 const swaggerJsdoc = require('swagger-jsdoc');
+const config = require('../config/env');
 const { TASK_STATUS_VALUES } = require('../constants/taskStatus');
+
+const prodServerUrl = process.env.RENDER_EXTERNAL_URL || 'https://task-api-zvh4.onrender.com';
+const localServerUrl = `http://localhost:${config.PORT || 5000}`;
+
+const servers =
+  config.NODE_ENV === 'production'
+    ? [
+        {
+          url: prodServerUrl,
+          description: 'Production Server (Render)',
+        },
+        {
+          url: localServerUrl,
+          description: 'Local Development Server',
+        },
+      ]
+    : [
+        {
+          url: localServerUrl,
+          description: 'Local Development Server',
+        },
+        {
+          url: prodServerUrl,
+          description: 'Production Server (Render)',
+        },
+      ];
 
 const swaggerDefinition = {
   openapi: '3.0.3',
@@ -9,16 +36,7 @@ const swaggerDefinition = {
     description:
       'A secure, production-quality RESTful API for task management featuring JWT authentication, user-scoped task ownership, strict Joi request validation, and comprehensive error handling.',
   },
-  servers: [
-    {
-      url: 'http://localhost:5000',
-      description: 'Local Development Server',
-    },
-    {
-      url: 'https://task-api.onrender.com',
-      description: 'Production Server (Render Deployment Placeholder)',
-    },
-  ],
+  servers,
   components: {
     securitySchemes: {
       bearerAuth: {
@@ -84,10 +102,10 @@ const swaggerDefinition = {
       },
       TaskCreateRequest: {
         type: 'object',
-        required: ['title', 'description'],
+        required: ['title'],
         properties: {
           title: { type: 'string', minLength: 1, maxLength: 100, example: 'Deploy to Cloud' },
-          description: { type: 'string', minLength: 1, maxLength: 1000, example: 'Configure environment variables and deploy service' },
+          description: { type: 'string', maxLength: 1000, example: 'Configure environment variables and deploy service' },
           status: {
             type: 'string',
             enum: TASK_STATUS_VALUES,
@@ -295,13 +313,6 @@ const swaggerDefinition = {
             description: 'Items per page (default 10, max 100)',
             required: false,
             schema: { type: 'integer', default: 10, minimum: 1, maximum: 100 },
-          },
-          {
-            name: 'search',
-            in: 'query',
-            description: 'Case-insensitive text search in title or description',
-            required: false,
-            schema: { type: 'string' },
           },
         ],
         responses: {

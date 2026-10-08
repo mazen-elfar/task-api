@@ -16,8 +16,12 @@ const startServer = async () => {
       logger.info(
         `Server running in [${config.NODE_ENV}] mode on port: ${config.PORT}`
       );
-      logger.info(`Swagger documentation available at: http://localhost:${config.PORT}/api-docs`);
-      logger.info(`Health check available at: http://localhost:${config.PORT}/health`);
+      const isProduction = config.NODE_ENV === 'production';
+      const baseUrl = isProduction
+        ? (process.env.RENDER_EXTERNAL_URL || 'https://task-api-zvh4.onrender.com')
+        : `http://localhost:${config.PORT}`;
+      logger.info(`Swagger documentation available at: ${baseUrl}/api-docs`);
+      logger.info(`Health check available at: ${baseUrl}/health`);
     });
   } catch (error) {
     logger.error('Failed to start server:', error);

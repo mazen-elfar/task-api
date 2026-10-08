@@ -40,5 +40,5 @@ desktop.ini
 *.sw?
 
 # Agentic Planning & Internal Artifacts
-docs/
+/docs/
 .agents/
